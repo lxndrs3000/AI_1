@@ -9,11 +9,17 @@ public class Cube{
     //array with the 6 colors of the sides
     public static char[] colors;
 //constructor for the cube
-Cube(boolean random){
+    Cube(boolean random){
     init(random);
 }
-//cube initialization
+    //cube initialization
     public static void init(boolean random){
+
+        /*
+          sideG                   □
+    sideW sideR sideY sideO     □ □ □ □
+          sideB                   □
+     */
         
         colors = new char[6];
         sides =  new Side[6];
@@ -36,7 +42,7 @@ Cube(boolean random){
     static void randomize(int times){
         Random rand = new Random();
         for (int i=0;i<times;i++){
-            move(possible_moves[rand.nextInt(11)]);
+            //move(possible_moves[rand.nextInt(11)]);
         }
     }
 
@@ -161,8 +167,24 @@ Cube(boolean random){
     }
 //prints the current state of the cube
     void print(){
+
+        System.out.println("-------------------------------------");
+
+        System.out.print("         "+sides[4].get_side()[0][0]+sides[4].get_side()[0][1]+sides[4].get_side()[0][2]+"\n");
+        System.out.print("         "+sides[4].get_side()[1][0]+sides[4].get_side()[1][1]+sides[4].get_side()[1][2]+"\n");
+        System.out.print("         "+sides[4].get_side()[2][0]+sides[4].get_side()[2][1]+sides[4].get_side()[2][2]+"\n"+"\n");
+
+        System.out.print(""+sides[0].get_side()[0][0]+sides[0].get_side()[0][1]+sides[0].get_side()[0][2]+"      "+sides[1].get_side()[0][0]+sides[1].get_side()[0][1]+sides[1].get_side()[0][2]+"      "+sides[2].get_side()[0][0]+sides[2].get_side()[0][1]+sides[2].get_side()[0][2]+"      "+sides[3].get_side()[0][0]+sides[3].get_side()[0][1]+sides[3].get_side()[0][2]+"\n");
+        System.out.print(""+sides[0].get_side()[1][0]+sides[0].get_side()[1][1]+sides[0].get_side()[1][2]+"      "+sides[1].get_side()[1][0]+sides[1].get_side()[1][1]+sides[1].get_side()[1][2]+"      "+sides[2].get_side()[1][0]+sides[2].get_side()[1][1]+sides[2].get_side()[1][2]+"      "+sides[3].get_side()[1][0]+sides[3].get_side()[1][1]+sides[3].get_side()[1][2]+"\n");
+        System.out.print(""+sides[0].get_side()[2][0]+sides[0].get_side()[2][1]+sides[0].get_side()[2][2]+"      "+sides[1].get_side()[2][0]+sides[1].get_side()[2][1]+sides[1].get_side()[2][2]+"      "+sides[2].get_side()[2][0]+sides[2].get_side()[2][1]+sides[2].get_side()[2][2]+"      "+sides[3].get_side()[2][0]+sides[3].get_side()[2][1]+sides[3].get_side()[2][2]+"\n"+"\n");
+
+        System.out.print("         "+sides[5].get_side()[0][0]+sides[5].get_side()[0][1]+sides[5].get_side()[0][2]+"\n");
+        System.out.print("         "+sides[5].get_side()[1][0]+sides[5].get_side()[1][1]+sides[5].get_side()[1][2]+"\n");
+        System.out.print("         "+sides[5].get_side()[2][0]+sides[5].get_side()[2][1]+sides[5].get_side()[2][2]+"\n");
+
+        System.out.println("\n"+"-------------------------------------");
        
-        for (int k = 0; k < 6; k++){
+        /*for (int k = 0; k < 6; k++){
             for(int i = 0; i<3; i++){
                 for(int j = 0; j<3; j++){
                     System.out.print(sides[k].get_side()[i][j]);
@@ -170,6 +192,6 @@ Cube(boolean random){
                 System.out.println("");
             }
             System.out.println("");
-        }
+        }*/
     }
 }
