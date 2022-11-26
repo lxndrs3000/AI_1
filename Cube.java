@@ -12,12 +12,24 @@ public class Cube implements Comparable<Cube>{
     private int offPlace;
     private int steps;
     private Cube father = null;
-    private int f;
+    private long f;
 
     //constructor for the cube
     Cube(boolean random){
         init(random);
     }
+
+    /*Cube(Cube initial)
+    {
+        Cube cube_copy = new Cube(false);
+        for (int c = 0; c<6; c++){
+            for (int i = 0; i < 3; i++){
+                for (int j = 0; j < 3; j++){
+                    sides[c][i][j] = initial.get_sides()[c].get_side()[i][j];
+                }
+            }
+        }
+    }*/
     //cube initialization
     public static void init(boolean random){
 
@@ -32,6 +44,7 @@ public class Cube implements Comparable<Cube>{
         for (int c = 0; c<6; c++){
             sides[c] = new Side(colors[c]);
         }
+
         if(random){
 
             randomize(20);
@@ -47,25 +60,12 @@ public class Cube implements Comparable<Cube>{
         Random rand = new Random();
         for (int i=0;i<times;i++){
 
-            //print();
             move(possible_moves[rand.nextInt(12)]);
 
         }
     }
 
-    static Cube copyOf(){
-        Cube cube_copy = new Cube(false);
-        for (int c = 0; c<6; c++){
-            char[][] blocks_copy = new char[3][3];
-            for (int i = 0; i < 3; i++){
-                for (int j = 0; j < 3; j++){
-                    blocks_copy[i][j] = sides[c].get_side()[i][j];
-                }
-            }
-            cube_copy.get_sides()[c].set_side(blocks_copy);
-        }
-        return cube_copy;
-    }
+
 
     //intererperets the array of directions
     public static void move(String direction){
@@ -477,7 +477,7 @@ public class Cube implements Comparable<Cube>{
         for(int k=0; k<6;k++){
             this.offPlace+=this.sides[k].count_out_of_place();
         }
-        return offPlace;
+        return offPlace/12;
     }
     private int countSteps(){
         while(this.father!=null){
@@ -486,8 +486,11 @@ public class Cube implements Comparable<Cube>{
         return this.steps;
     }
 
-    private void f(){
-        this.f=this.steps+this.offPlace;
+    public void f(){
+        this.f=this.countSteps()+this.count_all_out_of_place();
+    }
+    public boolean isFinal(){
+        return this.count_all_out_of_place()==0;
     }
 
 
@@ -533,37 +536,9 @@ public class Cube implements Comparable<Cube>{
     }
 
 
-    ArrayList<Cube> getChildren(){
-        ArrayList<Cube> children=new ArrayList<>();
-
-        //Create a new child for every move "UL","UR","DL","DR","RU","RD","LU","LD","FU","FD","BU","BD"
-        Cube child=this.copyOf();
-
-        child.move("UL");
-        child.f();                  //Every child has f(child)=h(child)+g(child)
-        child.setFather(this);//Every child has a father
-        children.add(child);
-
-        child=this.copyOf();
-        child.move("UR");
-        child.f();                  //Every child has f(child)=h(child)+g(child)
-        child.setFather(this);//Every child has a father
-        children.add(child);
 
 
-        for(int i=0; i<possible_moves.length;i++){
-            child=this.copyOf();
-            child.move(possible_moves[i]);
-            child.f();                      //Every child has f(child)=h(child)+g(child)
-            child.setFather(this);          //Every child has a father
-            children.add(child);
-        }
-        return children;
-    }
 
-    public boolean isFinal(){
-        return this.offPlace==0;
-    }
     @Override
     public int compareTo(Cube s) {
         return Double.compare(this.offPlace, s.offPlace); // compare based on the heuristic score.
